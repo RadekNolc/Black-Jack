@@ -5,6 +5,6 @@ public interface IQueue<T> {
     void add(T data);
     T poll() throws Exception;
     T get() throws Exception;
-    void removeFirst() throws Exception;
+    void peek() throws Exception;
 
 }

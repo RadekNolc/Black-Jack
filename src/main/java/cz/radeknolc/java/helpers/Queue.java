@@ -4,9 +4,9 @@ import cz.radeknolc.java.interfaces.IQueue;
 
 public class Queue<T> implements IQueue<T> {
 
-    int count = 0;
-    Link<T> first;
-    Link<T> last;
+    private int count = 0;
+    protected Link<T> first;
+    protected Link<T> last;
 
     @Override
     public void add(T data) {
@@ -26,7 +26,7 @@ public class Queue<T> implements IQueue<T> {
     @Override
     public T poll() throws Exception {
         T item = (T) get();
-        removeFirst();
+        peek();
 
         return item;
     }
@@ -39,7 +39,7 @@ public class Queue<T> implements IQueue<T> {
     }
 
     @Override
-    public void removeFirst() throws Exception {
+    public void peek() throws Exception {
         if (first != null) {
             first = first.next;
             count--;
