@@ -4,15 +4,22 @@ import cz.radeknolc.java.models.CardDeck;
 import cz.radeknolc.java.models.Player;
 import cz.radeknolc.java.models.Session;
 
+import java.util.Scanner;
+
 public class Main {
 
-    public static void main(String[] args) {
-        Player player = new Player("Radek Nolč", false, 1000);
-        Player dealer = new Player("Dealer", true, 0);
-        CardDeck deck = Generator.generateDeck();
-        deck.shuffle();
+    public static Scanner scanner;
 
-        Session session = new Session(player, dealer, deck);
+    public static void main(String[] args) {
+        scanner = new Scanner(System.in);
+        System.out.println("Welcome to Black Jack!");
+        System.out.print("Enter your's name: ");
+        String name = scanner.nextLine();
+
+        Player player = new Player(name, 1000);
+        Session session = new Session(player);
         session.start();
+
+        scanner.close();
     }
 }

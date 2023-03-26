@@ -1,36 +1,18 @@
 package cz.radeknolc.java.models;
 
-public class Player {
-
-    private String name;
-    private boolean isNpc;
+public class Player extends Person {
     private double money;
-    private CardDeck cards;
 
-    public Player(String name, boolean isNpc, double money) {
-        this.name = name;
-        this.isNpc = isNpc;
+    public Player(String name, double money) {
+        super(name);
         this.money = money;
-        cards = new CardDeck();
     }
 
-    public boolean hasTwentyOne() {
-        return cards.getTotalValue() == 21;
+    public void setMoney(double newValue) {
+        money = newValue;
     }
 
-    public void takeCard(CardDeck targetDeck) {
-        try {
-            cards.add(targetDeck.poll());
-        } catch (Exception exception) {
-            System.out.println(exception);
-        }
-    }
-
-    public CardDeck getCards() {
-        return cards;
-    }
-
-    public String getName() {
-        return name;
+    public double getMoney() {
+        return money;
     }
 }

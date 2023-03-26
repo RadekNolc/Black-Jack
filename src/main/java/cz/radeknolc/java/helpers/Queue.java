@@ -24,7 +24,7 @@ public class Queue<T> implements IQueue<T> {
     }
 
     @Override
-    public T poll() throws Exception {
+    public T poll() {
         T item = (T) get();
         peek();
 
@@ -32,18 +32,20 @@ public class Queue<T> implements IQueue<T> {
     }
 
     @Override
-    public T get() throws Exception {
+    public T get() {
         if (first != null) {
             return first.data;
-        } else throw new Exception("There is nothing to get from the queue.");
+        }
+
+        return null;
     }
 
     @Override
-    public void peek() throws Exception {
+    public void peek() {
         if (first != null) {
             first = first.next;
             count--;
-        } else throw new Exception("There is nothing to remove from the queue.");
+        }
     }
 
     public int getCount() {

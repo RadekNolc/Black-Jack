@@ -28,6 +28,10 @@ public class Card {
         };
     }
 
+    public CardRank getCardRank() {
+        return cardRank;
+    }
+
     @Override
     public String toString() {
         //return String.format("Rank: %s | Suit: %s", cardRank.toString(), cardSuit.toString());
