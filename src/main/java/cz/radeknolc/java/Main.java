@@ -1,6 +1,5 @@
 package cz.radeknolc.java;
 
-import cz.radeknolc.java.models.CardDeck;
 import cz.radeknolc.java.models.Player;
 import cz.radeknolc.java.models.Session;
 
@@ -13,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
         System.out.println("Welcome to Black Jack!");
-        System.out.print("Enter your's name: ");
+        System.out.print("Enter yours name: ");
         String name = scanner.nextLine();
 
         Player player = new Player(name, 1000);

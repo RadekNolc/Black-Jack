@@ -24,7 +24,7 @@ public class Card {
             case RANK_8 -> 8;
             case RANK_9 -> 9;
             case RANK_10, RANK_J, RANK_Q, RANK_K -> 10;
-            case RANK_A -> 11; //TODO: Fix ACE as value 1
+            case RANK_A -> 11;
         };
     }
 
@@ -34,7 +34,6 @@ public class Card {
 
     @Override
     public String toString() {
-        //return String.format("Rank: %s | Suit: %s", cardRank.toString(), cardSuit.toString());
         return String.format(cardRank.toString().replace("RANK_", "") + " (" + cardSuit.toString().replace("SUIT_", "") +")");
     }
 }

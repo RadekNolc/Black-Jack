@@ -16,7 +16,6 @@ public class Session {
         this.player = (Player) player;
         this.dealer = new Dealer("Dealer");
         sessionDeck = Generator.generateDeck();
-        sessionDeck.shuffle();
     }
 
     public Session(Person player, Person dealer, CardDeck cardDeck) {
@@ -68,6 +67,7 @@ public class Session {
         player.setMoney(player.getMoney() - bet);
 
         System.out.println("Starting game...");
+        sessionDeck.shuffle(); // Shuffling cards in deck
         dealer.takeCard(sessionDeck);
         dealer.takeCard(sessionDeck);
         player.takeCard(sessionDeck);
@@ -112,14 +112,16 @@ public class Session {
                         break gameLoop;
                     }
                 }
-            } while ((nextStep < 1 || nextStep > 2) || nextStep != 2);
+            } while (nextStep != 2);
         }
 
         player.returnCards(sessionDeck);
         dealer.returnCards(sessionDeck);
 
         printWinner(winner);
-        if (winner != null && winner == player) {
+        if (winner == null) {
+            player.setMoney(player.getMoney() + moneyBet);
+        } else if (winner == player) {
             player.setMoney(player.getMoney() + moneyBet * 2);
             System.out.println("You won: " + moneyBet * 2 + " money!");
         }
