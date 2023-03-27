@@ -3,6 +3,7 @@ package cz.radeknolc.java.models;
 import cz.radeknolc.java.Generator;
 import cz.radeknolc.java.Main;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Session {
@@ -61,8 +62,13 @@ public class Session {
         double bet = 0;
         do {
             System.out.printf("You currently have %.2f money. How much money do you want to bet? ", player.getMoney());
-            bet = Main.scanner.nextDouble();
-        } while (bet > player.getMoney());
+            try {
+                String input = Main.scanner.nextLine();
+                bet = Double.parseDouble(input);
+            } catch (Exception exception) {
+                System.out.println("Invalid input. You have to input valid number.");
+            }
+        } while (bet > player.getMoney() || bet == 0);
         moneyBet = bet;
         player.setMoney(player.getMoney() - bet);
 
@@ -84,7 +90,13 @@ public class Session {
                 System.out.println("1: Get next card");
                 System.out.println("2: Stand");
                 System.out.println("Select what to do next:");
-                nextStep = Main.scanner.nextInt();
+                try {
+                    String input = Main.scanner.nextLine();
+                    nextStep = Integer.parseInt(input);
+                } catch (Exception exception) {
+                    System.out.println("Invalid input. You have to input 1 or 2.");
+                    continue;
+                }
 
                 switch (nextStep) {
                     case 1 -> {
@@ -111,6 +123,7 @@ public class Session {
                         winner = compare(true);
                         break gameLoop;
                     }
+                    default -> System.out.println("Invalid input. You have to input 1 or 2.");
                 }
             } while (nextStep != 2);
         }
@@ -132,13 +145,20 @@ public class Session {
             System.out.println("1: Start new game");
             System.out.println("2: Quit");
             System.out.println("Select what to do next:");
-            nextStep = Main.scanner.nextInt();
+            try {
+                String input = Main.scanner.nextLine();
+                nextStep = Integer.parseInt(input);
+            } catch (Exception exception) {
+                System.out.println("Invalid input. You have to input 1 or 2.");
+                continue;
+            }
 
             switch (nextStep) {
                 case 1 -> start();
                 case 2 -> {
                     break endLoop;
                 }
+                default -> System.out.println("Invalid input. You have to input 1 or 2.");
             }
         } while (nextStep < 1 || nextStep > 2);
     }
