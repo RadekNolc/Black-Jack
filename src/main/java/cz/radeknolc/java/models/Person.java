@@ -29,6 +29,10 @@ public class Person implements IPerson {
         cards.add(sourceDeck.poll());
     }
 
+    public void takeCard(Card card) {
+        cards.add(card);
+    }
+
     @Override
     public CardDeck getCards() {
         return cards;

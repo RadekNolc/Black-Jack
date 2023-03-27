@@ -11,6 +11,26 @@ public class Generator {
 
     public static Random random = new Random();
 
+    public static Card generateCard(int value) {
+        return switch(value) {
+            case 1, 11 -> generateCard(CardRank.RANK_A);
+            case 2 -> generateCard(CardRank.RANK_2);
+            case 3 -> generateCard(CardRank.RANK_3);
+            case 4 -> generateCard(CardRank.RANK_4);
+            case 5 -> generateCard(CardRank.RANK_5);
+            case 6 -> generateCard(CardRank.RANK_6);
+            case 7 -> generateCard(CardRank.RANK_7);
+            case 8 -> generateCard(CardRank.RANK_8);
+            case 9 -> generateCard(CardRank.RANK_9);
+            case 10 -> generateCard(CardRank.RANK_10);
+            default -> null;
+        };
+    }
+
+    public static Card generateCard(CardRank rank) {
+        return new Card(rank, CardSuit.SUIT_HEARTS);
+    }
+
     public static CardDeck generateDeck() {
         CardDeck cardDeck = new CardDeck();
         for (int i = 1; i <= 4; i++) {
