@@ -4,8 +4,11 @@ import cz.radeknolc.java.Generator;
 import cz.radeknolc.java.enums.CardRank;
 import cz.radeknolc.java.enums.CardSuit;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
 public class SessionTest {
 
     @Test

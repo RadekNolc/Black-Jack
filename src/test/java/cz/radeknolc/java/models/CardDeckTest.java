@@ -4,10 +4,13 @@ import cz.radeknolc.java.Generator;
 import cz.radeknolc.java.enums.CardRank;
 import cz.radeknolc.java.enums.CardSuit;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
 public class CardDeckTest {
 
     @Test
