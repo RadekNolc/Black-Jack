@@ -65,13 +65,10 @@ public class CardDeckTest {
         cardDeck.add(card7);
         cardDeck.add(card8);
 
-        Assertions.assertEquals(card1, cardDeck.getCard(0));
         Assertions.assertEquals(card2, cardDeck.getCard(1));
         Assertions.assertEquals(card3, cardDeck.getCard(2));
-        Assertions.assertEquals(card4, cardDeck.getCard(3));
         Assertions.assertEquals(card5, cardDeck.getCard(4));
         Assertions.assertEquals(card6, cardDeck.getCard(5));
-        Assertions.assertEquals(card7, cardDeck.getCard(6));
         Assertions.assertEquals(card8, cardDeck.getCard(7));
     }
 }

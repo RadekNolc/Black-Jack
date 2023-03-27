@@ -3,72 +3,110 @@ package cz.radeknolc.java.models;
 import cz.radeknolc.java.Generator;
 import cz.radeknolc.java.enums.CardRank;
 import cz.radeknolc.java.enums.CardSuit;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.DisplayNameGenerator;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 @DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
 public class SessionTest {
 
+    Person player;
+    Person dealer;
+    CardDeck cardDeck;
+    Session session;
+    CardDeck rubbishBin; // Used for giving away
+
+    @BeforeEach
+    void beforeEach() {
+        player = new Player("Player", 10000);
+        dealer = new Dealer("Dealer");
+        cardDeck = Generator.generateDeck();
+        session = new Session(player, dealer, cardDeck);
+        rubbishBin = new CardDeck();
+    }
+
     @Test
-    public void testCompare() {
-        CardDeck cardDeck = new CardDeck();
-
-        Player player = new Player("Player", false, 10000);
-        Player dealer = new Player("Dealer", true, 0);
-
-        for (int i = 1; i <= 4; i++) {
-            CardSuit suit = null;
-            switch(i) {
-                case 1 -> suit = CardSuit.SUIT_SPADES;
-                case 2 -> suit = CardSuit.SUIT_HEARTS;
-                case 3 -> suit = CardSuit.SUIT_CLUBS;
-                case 4 -> suit = CardSuit.SUIT_DIAMONDS;
-            }
-
-            Card[] cards = new Card[] {
-                    new Card(CardRank.RANK_2, suit),
-                    new Card(CardRank.RANK_3, suit),
-                    new Card(CardRank.RANK_4, suit),
-                    new Card(CardRank.RANK_5, suit),
-                    new Card(CardRank.RANK_6, suit),
-                    new Card(CardRank.RANK_7, suit),
-                    new Card(CardRank.RANK_8, suit),
-                    new Card(CardRank.RANK_9, suit),
-                    new Card(CardRank.RANK_10, suit),
-                    new Card(CardRank.RANK_J, suit),
-                    new Card(CardRank.RANK_Q, suit),
-                    new Card(CardRank.RANK_K, suit),
-                    new Card(CardRank.RANK_A, suit)
-            };
-
-            for (Card card : cards) {
-                cardDeck.add(card);
-            }
+    void testCompare() {
+        Card[] cards = new Card[10];
+        for (int i = 0; i < cards.length; i++) {
+            cards[i] = Generator.generateCard(i+1);
         }
 
-        player.takeCard(cardDeck); // Taking 2
-        player.takeCard(cardDeck); // Taking 3
-        player.takeCard(cardDeck); // Taking 4
-        player.takeCard(cardDeck); // Taking 5
-        player.takeCard(cardDeck); // Taking 6
+        // Testing 21 for player
+        player.takeCard(cards[0]); // A
+        player.takeCard(cards[9]); // 10
 
-        dealer.takeCard(cardDeck); // Taking 7
-        dealer.takeCard(cardDeck); // Taking 8
-        dealer.takeCard(cardDeck); // Taking 9
+        dealer.takeCard(cards[5]); // 6
+        dealer.takeCard(cards[4]); // 5
 
-        Assertions.assertEquals(player, new Session(player, dealer, cardDeck).compare());
+        Assertions.assertEquals(player, session.compare(true));
+        player.returnCards(rubbishBin); dealer.returnCards(rubbishBin);
 
-        player.returnCards(cardDeck);
-        dealer.returnCards(cardDeck);
+        // Testing 22 for player
+        player.takeCard(cards[6]); // 7
+        player.takeCard(cards[6]); // 7
+        player.takeCard(cards[6]); // 7
+        player.takeCard(cards[0]); // A
 
-        player.takeCard(cardDeck); // Taking 10
-        player.takeCard(cardDeck); // Taking J
+        dealer.takeCard(cards[0]); // A
 
-        dealer.takeCard(cardDeck); // Taking Q
-        dealer.takeCard(cardDeck); // Taking K
+        Assertions.assertEquals(dealer, session.compare(true));
+        player.returnCards(rubbishBin); dealer.returnCards(rubbishBin);
 
-        Assertions.assertEquals(null, new Session(player, dealer, cardDeck).compare());
+        // Testing 19 player vs 18 dealer
+        player.takeCard(cards[9]); // 10
+        player.takeCard(cards[8]); // 9
+
+        dealer.takeCard(cards[9]); // 10
+        dealer.takeCard(cards[7]); // 8
+        Assertions.assertEquals(player, session.compare(true));
+        player.returnCards(rubbishBin); dealer.returnCards(rubbishBin);
+
+        // Testing 20 player vs 20 dealer
+        player.takeCard(cards[9]); // 10
+        player.takeCard(cards[9]); // 10
+
+        dealer.takeCard(cards[9]); // 10
+        dealer.takeCard(cards[9]); // 10
+        Assertions.assertNull(session.compare(true));
+        player.returnCards(rubbishBin); dealer.returnCards(rubbishBin);
+
+        // Testing 21 for dealer
+        dealer.takeCard(cards[0]); // A
+        dealer.takeCard(cards[9]); // 10
+
+        player.takeCard(cards[5]); // 6
+        player.takeCard(cards[4]); // 5
+
+        Assertions.assertEquals(dealer, session.compare(true));
+        player.returnCards(rubbishBin); dealer.returnCards(rubbishBin);
+
+        // Testing 22 for dealer
+        dealer.takeCard(cards[6]); // 7
+        dealer.takeCard(cards[6]); // 7
+        dealer.takeCard(cards[6]); // 7
+        dealer.takeCard(cards[0]); // A
+
+        player.takeCard(cards[0]); // A
+
+        Assertions.assertEquals(player, session.compare(true));
+        player.returnCards(rubbishBin); dealer.returnCards(rubbishBin);
+
+        // Testing 18 player vs 19 dealer
+        dealer.takeCard(cards[9]); // 10
+        dealer.takeCard(cards[8]); // 9
+
+        player.takeCard(cards[9]); // 10
+        player.takeCard(cards[7]); // 8
+        Assertions.assertEquals(dealer, session.compare(true));
+        player.returnCards(rubbishBin); dealer.returnCards(rubbishBin);
+
+        // Testing not evaluating winner
+        player.takeCard(cards[6]); // 7
+        player.takeCard(cards[0]); // A
+
+        dealer.takeCard(cards[6]); // 7
+        dealer.takeCard(cards[1]); // 2
+        dealer.takeCard(cards[7]); // 8
+        Assertions.assertNull(session.compare(false));
+
     }
 }
