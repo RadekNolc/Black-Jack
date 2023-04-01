@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class Generator {
 
+    public static CardSuit[] cardSuits = CardSuit.values();
     public static Random random = new Random();
 
     public static Card generateCard(int value) {
@@ -28,7 +29,7 @@ public class Generator {
     }
 
     public static Card generateCard(CardRank rank) {
-        return new Card(rank, CardSuit.SUIT_HEARTS);
+        return new Card(rank, cardSuits[random.nextInt(4)]);
     }
 
     public static CardDeck generateDeck() {

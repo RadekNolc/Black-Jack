@@ -8,8 +8,6 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 @DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
 public class CardDeckTest {
 
@@ -17,27 +15,29 @@ public class CardDeckTest {
     public void testTotalValue() {
         CardDeck cardDeck = new CardDeck(); //Creating deck to test
         //Creating cards to add into deck
-        CardSuit suit = CardSuit.SUIT_CLUBS;
-        Card card = new Card(CardRank.RANK_A, suit);
-        cardDeck.add(card);
+        cardDeck.add(Generator.generateCard(CardRank.RANK_A));
         Assertions.assertEquals(11, cardDeck.getTotalValue());
 
 
         cardDeck = new CardDeck(); //Creating new deck to test
         //Creating cards to add into deck
-        card = new Card(CardRank.RANK_A, suit);
-        cardDeck.add(card);
-        card = new Card(CardRank.RANK_A, suit);
-        cardDeck.add(card);
+        cardDeck.add(Generator.generateCard(CardRank.RANK_A));
+        cardDeck.add(Generator.generateCard(CardRank.RANK_A));
         Assertions.assertEquals(2, cardDeck.getTotalValue());
 
         cardDeck = new CardDeck(); //Creating new deck to test
         //Creating cards to add into deck
-        card = new Card(CardRank.RANK_10, suit);
-        cardDeck.add(card);
-        card = new Card(CardRank.RANK_A, suit);
-        cardDeck.add(card);
+        cardDeck.add(Generator.generateCard(CardRank.RANK_10));
+        cardDeck.add(Generator.generateCard(CardRank.RANK_A));
         Assertions.assertEquals(21, cardDeck.getTotalValue());
+
+        cardDeck = new CardDeck(); //Creating new deck to test
+        //Creating cards to add into deck
+        cardDeck.add(Generator.generateCard(CardRank.RANK_10));
+        cardDeck.add(Generator.generateCard(CardRank.RANK_10));
+        cardDeck.add(Generator.generateCard(CardRank.RANK_A));
+        cardDeck.add(Generator.generateCard(CardRank.RANK_A));
+        Assertions.assertEquals(22, cardDeck.getTotalValue());
 
         cardDeck = Generator.generateDeck(); //Creating new deck to test
         Assertions.assertEquals((95*4)-(4*10), cardDeck.getTotalValue());
